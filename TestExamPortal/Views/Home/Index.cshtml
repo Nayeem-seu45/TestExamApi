@@ -369,7 +369,9 @@
                                 <th colspan="2" style="width: 2%;text-align:center;">Modify</th>
                             </tr>
                         </thead>
-                        <tbody id="lst"></tbody>
+                        <tbody id="lst">
+                          
+                        </tbody>
                     </table>
                 </div>
             </div>
@@ -416,7 +418,15 @@
                     debugger;
                     $.each(res, function (i, item) {
                         console.log(res);
-                        $('#lst').html(res);
+                        
+                        $('#lst').append(` <tr>
+                                   <td>${item.name}</td>
+                                       <td>${item.name}</td>
+                                       <td>${item.name}</td>
+                                       <td>${item.name}</td>
+                                       <td>${item.name}</td>
+                                       <td>${item.name}</td>
+                               </tr>`);
                        
                     });
                 }

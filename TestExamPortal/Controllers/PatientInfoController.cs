@@ -25,7 +25,7 @@ namespace TestExamPortal.Controllers
         {
             try
             {
-                var data = HttpContext.Request.Query["model"];
+                //var data = HttpContext.Request.Query["model"];
 
 
                 HttpResponseMessage httpResponseMessage = await _client.PostAsJsonAsync("PatientInfo", model);
