@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using TestExamApi.Data;
@@ -8,7 +9,7 @@ namespace deseaseId.Data;
 public class Repository<T> : IRepository<T> where T : class
 {
     private readonly ApplicationDbContext dbContext;
-
+   
     private DbSet<T> _Table;
     public Repository(ApplicationDbContext dbContext)
     {
@@ -37,6 +38,7 @@ public class Repository<T> : IRepository<T> where T : class
 
     }
 
+
     public async Task<T> Insert(T model)
     {
         var result = await _Table.AddAsync(model);
@@ -54,5 +56,7 @@ public class Repository<T> : IRepository<T> where T : class
         }
 
     }
+
+   
 }
 
