@@ -438,22 +438,29 @@
                 id = $('#Id').val();
             }
 
-            var data =
-            {
-                Id: id,
-                Name: $('#PatientName').val().trim(),
-                DeseaseId: $('#DeseaseId').val(),
-                EpilepsyId: $('#EpilepsyId').val(),
-                NCDs: otherNCDsList,
-                Allergies: allergiesNameList,
-            }
+            //var data =
+            //{
+            //    Id: id,
+            //    Name: $('#PatientName').val().trim(),
+            //    DeseaseId: $('#DeseaseId').val(),
+            //    EpilepsyId: $('#EpilepsyId').val(),
+            //    NCDs: otherNCDsList,
+            //    Allergies: allergiesNameList,
+            //}
+
+            let deseaseId= $('#DeseaseId').val()
+            let ns = $("#PatientName").val();
+            let modeId = id;
+            let ncdlist = otherNCDsList;
+            let allergies = allergiesNameList;
+            var jsonInput = { Id: modeId, DeseaseId: deseaseId, Name: ns, NCDs: ncdlist, Allergies: allergies };
             debugger;
             $.ajax({
                 type: 'POST',
-                url: 'PatientInfo/CreatePatientInfo/',
+                url: 'PatientInfo/CreatePatientInfo', 
                 contentType: 'application/json',
                 dataType: 'json',
-                data: JSON.stringify(data),
+                data: JSON.stringify(jsonInput),
                 success: function (res) {
                     console.log(res);
                     toastr["success"](res.Message);

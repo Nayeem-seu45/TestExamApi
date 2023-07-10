@@ -21,11 +21,13 @@ namespace TestExamPortal.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreatePatientInfo([FromBody]PatientInfoViewModel model)
+        public async Task<IActionResult> CreatePatientInfo([FromBody] PatientInfoViewModel model)
         {
             try
             {
-                
+                var data = HttpContext.Request.Query["model"];
+
+
                 HttpResponseMessage httpResponseMessage = await _client.PostAsJsonAsync("PatientInfo", model);
                 if (httpResponseMessage.IsSuccessStatusCode)
                 {
