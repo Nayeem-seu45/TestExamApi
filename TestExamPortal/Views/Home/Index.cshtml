@@ -63,7 +63,7 @@
         color: red;
     }
 
-    .style,.styles {
+    .style, .styles {
         padding-right: 40px;
     }
 
@@ -370,7 +370,6 @@
                             </tr>
                         </thead>
                         <tbody id="lst">
-                          
                         </tbody>
                     </table>
                 </div>
@@ -384,7 +383,7 @@
 <script src="~/js/toastr.min.js"></script>
 
 <script>
-   
+
     var otherNCDsList = [];
     var allergiesNameList = [];
 
@@ -415,20 +414,20 @@
                 type: 'GET',
                 url: 'PatientInfo/GetAllPatienInfo/',
                 success: function (res) {
-                    debugger;
                     $.each(res, function (i, item) {
-                        var sl = i+1;
-                        console.log(res);
-                        
+                        var sl = i + 1;
+                        var cvdsList = item.ncDs ? item.ncDs.map(obj => obj.name).join(' , ') : '';
+                        var allergieList = item.allergies? item.allergies.map(obj => obj.name).join(' , ') : '';
+
                         $('#lst').append(` <tr>
                                        <td>${sl}</td>
-                                   <td>${item.name}</td>
-                                   <td>${item.deseaseName}</td>
-                                        <td>${item.epilepsyName}</td>
-                                    <td>${item.name}</td>
-                                    <td>${item.name}</td>
-                               </tr>`);
-                       
+                                       <td>${item.name}</td>
+                                       <td>${item.deseaseName}</td>
+                                       <td>${item.epilepsyName}</td>
+                                       <td>${cvdsList}</td>
+                                       <td>${allergieList}</td>
+                                      </tr>`);
+
                     });
                 }
             });
@@ -475,7 +474,8 @@
             //    Allergies: allergiesNameList,
             //}
 
-            let deseaseId= $('#DeseaseId').val()
+            let deseaseId = $('#DeseaseId').val();
+            let epilepsyId = $('#EpilepsyId').val();
             let ns = $("#PatientName").val();
             let modeId = id;
             let ncdlist = otherNCDsList;
@@ -484,7 +484,7 @@
             debugger;
             $.ajax({
                 type: 'POST',
-                url: 'PatientInfo/CreatePatientInfo', 
+                url: 'PatientInfo/CreatePatientInfo',
                 contentType: 'application/json',
                 dataType: 'json',
                 data: JSON.stringify(jsonInput),
@@ -499,12 +499,11 @@
                     toastr["warning"](res.statusText);
                 }
             });
-        });        
+        });
 
         $('#addBtn').click(function () {
             debugger;
-            if ($('#OtherNCDs').val().trim()) 
-            {
+            if ($('#OtherNCDs').val().trim()) {
                 $("ul.style").append(`<li>${$('#OtherNCDs').val()}<button id="det" onclick="deleteOther(this);"><i class="trash fa fa-trash-o"></i></button></li>`);
                 otherNCDsList.push({
                     'Name': $('#OtherNCDs').val().trim(),
@@ -529,7 +528,7 @@
                 alert('empty input!')
             }
         });
-        
+
 
     });
 
@@ -600,7 +599,7 @@
 
 
     function deleteOther(e) {
-        debugger;       
+        debugger;
         var objIndex = otherNCDsList.findIndex((obj => obj.Name == e.parentElement.textContent));
         otherNCDsList.splice(objIndex, 1);
         e.parentElement.remove();
