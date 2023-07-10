@@ -25,7 +25,7 @@ namespace TestExamApi.Controllers
         {
             try
             {
-                return  await _dbContext.PatientInfos.Include(x=>x.NCDs).Include(x=>x.Allergies).ToListAsync(); ;
+                return  await _dbContext.PatientInfos.Include(x=>x.NCDs).Include(x=>x.Allergies).ToListAsync();
                 
             }
             catch (Exception)

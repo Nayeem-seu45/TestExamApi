@@ -417,13 +417,14 @@
                 success: function (res) {
                     debugger;
                     $.each(res, function (i, item) {
+                        var sl = i+1;
                         console.log(res);
                         
                         $('#lst').append(` <tr>
+                                       <td>${sl}</td>
                                    <td>${item.name}</td>
-                                   <td>${item.}</td>
                                    <td>${item.deseaseName}</td>
-                                    <td>${item.name}</td>
+                                        <td>${item.epilepsyName}</td>
                                     <td>${item.name}</td>
                                     <td>${item.name}</td>
                                </tr>`);

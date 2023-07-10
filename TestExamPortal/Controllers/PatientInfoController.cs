@@ -6,6 +6,7 @@ using System.Net.Http;
 using TestExamApi.Controllers;
 using TestExamApi.Data;
 using TestExamApi.Entites;
+using TestExamPortal.Enums;
 using TestExamPortal.Models;
 
 namespace TestExamPortal.Controllers
@@ -66,6 +67,15 @@ namespace TestExamPortal.Controllers
                             {
                                 item.DeseaseName = deseas.Name;
                             }
+                            if ((int)item.EpilepsyId == 1)
+                            {
+                                item.EpilepsyName = "Yes";
+                            }
+                            else
+                            {
+                                item.EpilepsyName = "No";
+                            }
+
                         }
                     }
 
@@ -89,6 +99,16 @@ namespace TestExamPortal.Controllers
             }
 
             return new JsonResult(patientInfo);
+        }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            var res = await _client.DeleteAsync($"PatientInfo/{id}");
+            if (res.IsSuccessStatusCode)
+            {
+                return Ok();
+            }
+            return NotFound();
         }
     }
 }
