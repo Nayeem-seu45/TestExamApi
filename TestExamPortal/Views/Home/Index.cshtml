@@ -450,7 +450,9 @@
             debugger;
             $.ajax({
                 type: 'POST',
-                url: 'PatientInfo/CreateAsync/',
+                url: 'PatientInfo/CreatePatientInfo/',
+                contentType: 'application/json',
+                dataType: 'json',
                 data: JSON.stringify(data),
                 success: function (res) {
                     console.log(res);

@@ -1,40 +1,36 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using deseaseId.Data;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualBasic;
 using TestExamApi.AppData;
+using TestExamApi.Data;
 using TestExamApi.Entites;
 
 namespace TestExamApi.Controllers
 {
-    public class PatientInfoController : Controller
+    [Route("api/[controller]")]
+    [ApiController]
+    public class PatientInfoController : BaseController<PatientInfo>
     {
-        private readonly HttpClient _client;
-        private IConfiguration _configuration;
-        public PatientInfoController(IConfiguration configuration)
+      
+        public PatientInfoController(IRepository<PatientInfo> repository) : base(repository)
         {
-            _configuration = configuration;
-            _client = new HttpClient();
-            _client.BaseAddress = new Uri(_configuration["APIURL"]);
-        }
-        public IActionResult Index()
-        {
-            return View();
+            
         }
 
-
-
-        [Route("PatientInfo/AddUpdatePatientInfo/")]
-        [HttpPost]
-        public async Task<ActionResult> AddUpdatePatientInfo(PatientInfo patientInfo,IEnumerable<NCD> nCDList, IEnumerable<Allergies> allergyList)
-        {
-            try
-            {
-                return Json(new { Status = "success", Message = "Save Successful." });
-            }
-            catch (Exception ex)
-            {
-                return Json(new { Status = "error", Message = ex.Message.ToString() });
-            }
-        }
+        //[Route("PatientInfo/AddUpdatePatientInfo/")]
+        //[HttpPost]
+        //public async Task<ActionResult> AddUpdatePatientInfo(PatientInfo patientInfo,IEnumerable<NCD> nCDList, IEnumerable<Allergies> allergyList)
+        //{
+        //    try
+        //    {
+        //        return Json(new { Status = "success", Message = "Save Successful." });
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return Json(new { Status = "error", Message = ex.Message.ToString() });
+        //    }
+        //}
 
     }
 }

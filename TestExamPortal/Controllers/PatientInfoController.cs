@@ -8,85 +8,35 @@ using TestExamPortal.Models;
 
 namespace TestExamPortal.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class PatientInfoController : BaseController<PatientInfo>
+    public class PatientInfoController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly HttpClient _client;
+        private IConfiguration _configuration;
 
-        public PatientInfoController(IRepository<PatientInfo> repository) : base(repository)
+        public PatientInfoController(IConfiguration configuration)
         {
-
+            _configuration = configuration;
+            _client = new HttpClient();
+            _client.BaseAddress = new Uri(_configuration["APIURL"]);
         }
 
-        [Route("PatientInfo/CreateAsync/")]
         [HttpPost]
-        public override async Task<ActionResult<PatientInfo>> CreateAsync([FromBody] PatientInfo patientInfo)
+        public async Task<IActionResult> CreatePatientInfo([FromBody]PatientInfoViewModel model)
         {
-            using (var transection = await _context.Database.BeginTransactionAsync())
+            try
             {
-                try
+                
+                HttpResponseMessage httpResponseMessage = await _client.PostAsJsonAsync("PatientInfo", model);
+                if (httpResponseMessage.IsSuccessStatusCode)
                 {
-                    foreach (NCD details in patientInfo.NCDs)
-                    {
-                        //
-                    }
-                    foreach (Allergies details in patientInfo.Allergies)
-                    {
-                        //
-                    }
-                    await _context.PatientInfos.AddAsync(patientInfo);
-                    await _context.SaveChangesAsync();
-                    await transection.CommitAsync();
+                    return RedirectToAction("Index");
                 }
-                catch (Exception ex)
-                {
-                    await transection.RollbackAsync();
-                    throw new Exception(ex.Message);
-                }
+                return RedirectToAction("Index");
             }
-            return Ok();
-        }
-
-        [Route("PatientInfo/UpdateAsync/")]
-        [HttpPost]
-        public override async Task<ActionResult<PatientInfo>> UpdateAsync([FromRoute] int id, [FromBody] PatientInfo patientInfo)
-        {
-            if (id != patientInfo.ID)
+            catch (Exception ex)
             {
-                return BadRequest();
+                throw ex;
             }
-            else
-            {
-                using (var transection = await _context.Database.BeginTransactionAsync())
-                {
-                    try
-                    {
-                        foreach (NCD details in patientInfo.NCDs)
-                        {
-                            //
-                        }
-                        foreach (Allergies details in patientInfo.Allergies)
-                        {
-                            //
-                        }
-
-                        _context.PatientInfos.Update(patientInfo);
-                        await _context.SaveChangesAsync();
-                        await transection.CommitAsync();
-                    }
-                    catch (Exception ex)
-                    {
-                        await transection.RollbackAsync();
-                        throw new Exception(ex.Message);
-                    }
-                }
-                return Ok();
-            }
-
-
-
-
         }
     }
 }
