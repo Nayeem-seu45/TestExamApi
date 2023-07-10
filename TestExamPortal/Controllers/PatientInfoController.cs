@@ -31,9 +31,29 @@ namespace TestExamPortal.Controllers
                 HttpResponseMessage httpResponseMessage = await _client.PostAsJsonAsync("PatientInfo", model);
                 if (httpResponseMessage.IsSuccessStatusCode)
                 {
+                    
                     return RedirectToAction("Index");
                 }
                 return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public async Task<List<PatientInfoViewModel>> GetAllPatienInfo()
+        {
+            try
+            {
+                List<PatientInfoViewModel> list = new();
+                HttpResponseMessage httpResponseMessage = await _client.GetAsync("PatientInfo");
+                if (httpResponseMessage.IsSuccessStatusCode)
+                {
+                    var jsonResult = await httpResponseMessage.Content.ReadAsStringAsync();
+                    list = JsonConvert.DeserializeObject<List<PatientInfoViewModel>>(jsonResult);
+                }
+                return list;
             }
             catch (Exception ex)
             {

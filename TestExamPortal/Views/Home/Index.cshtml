@@ -387,7 +387,7 @@
     var allergiesNameList = [];
 
     $(document).ready(function () {
-
+        GetPatientInfoList();
         GetDiseasesList();
 
         function GetDiseasesList() {
@@ -402,6 +402,22 @@
                             value: item.id,
                             text: item.name
                         }));
+                    });
+                }
+            });
+        };
+
+        function GetPatientInfoList() {
+            debugger;
+            $.ajax({
+                type: 'GET',
+                url: 'PatientInfo/GetAllPatienInfo/',
+                success: function (res) {
+                    debugger;
+                    $.each(res, function (i, item) {
+                        console.log(res);
+                        $('#lst').html(res);
+                       
                     });
                 }
             });
